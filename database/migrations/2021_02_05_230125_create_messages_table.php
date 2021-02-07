@@ -17,11 +17,6 @@ class CreateMessagesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('conversation_id')->nullable();
             $table->foreign('conversation_id')->references('id')->on('conversations');
-
-
-
-            $table->unsignedBigInteger('receiver_id')->nullable();
-            $table->foreign('receiver_id')->references('id')->on('users');
             $table->unsignedBigInteger('sender_id');
             $table->foreign('sender_id')->references('id')->on('users');
             $table->longText('content');

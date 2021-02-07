@@ -15,7 +15,6 @@ class MessageSeeder extends Seeder
 
         DB::table('messages')->insert([
             'conversation_id' => 1,
-            'receiver_id' => 1,
             'sender_id' => 2,
             'content' => 'Welcome to our website',
             'created_at' => now()->subMinutes(10),
@@ -24,7 +23,6 @@ class MessageSeeder extends Seeder
 
         DB::table('messages')->insert([
             'conversation_id' => 1,
-            'receiver_id' => 2,
             'sender_id' => 1,
             'content' => 'Thanks mate',
             'created_at' => now()->subMinutes(5),
