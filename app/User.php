@@ -38,68 +38,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    /* 
-        Return all conversations from a user
-    */
-    public function conversations()
-    {
-        return $this->belongsToMany('App\Conversation');
+
+    public function getMessagesWithUser($userID){
+        $user1 = $this->id;
+        $user2 = $userID;
+        $messages = Message::where('sender_id', $user1)->where('receiver_id', $user2)
+            ->orWhere(function ($query) use ($user1, $user2){
+                $query->where('sender_id', $user2)
+                    ->where('receiver_id', $user1);
+            })->get();
+        return $messages;
     }
 
-    /* 
-        Check if a conversation exists with a list of members
-        @param $usersList: 
-        return boolean
-
-    */
-    /*public function existConversationWith($usersList)
-    {
-
-        $usersList = Arr::prepend($usersList, $this->id);
-
-        //Retrieve user objects from their IDs provided in $usersList and insert them into the collection.
-        $usersCollect = collect();
-        for($i_userList = 0; $i_userList < count($usersList); $i_userList++){
-            $usersCollect = $usersCollect->push(User::find($usersList[$i_userList]));
-        }
-
-        $conversations = $this->conversations;
-        //Check among the conversations if a conversation has exactly the users provided in the parameter.
-        foreach ($conversations as $conversation) {
-            
-            foreach($usersCollect as $user){
-                
-                if(!$conversation->users->contains($user) || count($conversation->users) !== count($usersCollect)) return false;
-            }
-        }
-        return true;
-    }*/
-
-    public function existConversationWith($usersList)
-    {
-
-        $usersList = Arr::prepend($usersList, $this->id);
-
-        //Retrieve user objects from their IDs provided in $usersList and insert them into the collection.
-        $usersCollect = collect();
-        for ($i_userList = 0; $i_userList < count($usersList); $i_userList++) {
-            $usersCollect = $usersCollect->push(User::find($usersList[$i_userList]));
-        }
-        $totalValidUser = 0;
-        foreach($this->conversations as $conversation){     
-                if(count($conversation->users) == count($usersCollect)){
-                    
-                    foreach($usersCollect as $user){
-                        if($conversation->users->contains($user)){
-                            $totalValidUser++;
-                        }
-                    }
-                }         
-        }
-        return $totalValidUser == count($usersCollect) ? true : false;
-    }
-    public function getConversationWith($usersList)
-    {
-        return Conversation::where('user_id', 1)->get();
-    }
 }

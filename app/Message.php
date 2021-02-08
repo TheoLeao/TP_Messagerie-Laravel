@@ -2,12 +2,11 @@
 
 namespace App;
 
+use App\Users;
+use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Model;
 
 class Message extends Model
 {
-    public function conversation()
-    {
-        return $this->belongsTo('App\Conversation');
-    }
+    
 }
