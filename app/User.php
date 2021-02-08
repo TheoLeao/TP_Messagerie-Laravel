@@ -46,7 +46,7 @@ class User extends Authenticatable
             ->orWhere(function ($query) use ($user1, $user2){
                 $query->where('sender_id', $user2)
                     ->where('receiver_id', $user1);
-            })->orderBy('created_at', 'asc')->get();
+            })->orderBy('created_at', 'desc')->get();
         return $messages;
     }
 

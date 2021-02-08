@@ -20,4 +20,6 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/messagerie/{userID}', 'HomeController@showConversation')->name('showConversation');
+Route::get('/conversation/{userID}', 'HomeController@showConversation')->name('showConversation');
+Route::post('/conversation/sendMessage/{userID}', 'HomeController@postSendMessage')->name('sendMessage');
+
