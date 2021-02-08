@@ -13,13 +13,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+Route::get('/', 'HomeController@index')->name('home');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/conversation/{userID}', 'HomeController@showConversation')->name('showConversation');
-Route::post('/conversation/sendMessage/{userID}', 'HomeController@postSendMessage')->name('sendMessage');
+
+
+Route::group(['middleware' => ['auth']], function () { 
+    Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/conversation/{userID}', 'HomeController@showConversation')->name('showConversation');
+    Route::post('/conversation/sendMessage/{userID}', 'HomeController@postSendMessage')->name('sendMessage');
+});
 

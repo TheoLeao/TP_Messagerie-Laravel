@@ -30,9 +30,14 @@ class HomeController extends Controller
     }
 
     public function showConversation($userID){
-        $messages = Auth::user()->getMessagesWithUser($userID);
-        return view('conversation', ['messages' => $messages, 'user' => User::find($userID), 'authUser' => Auth::user()]);
-
+        if(User::find($userID)){
+            $messages = Auth::user()->getMessagesWithUser($userID);
+            return view('conversation', ['messages' => $messages, 'user' => User::find($userID), 'authUser' => Auth::user()]);
+        }
+        else{
+            abort(403, 'Une erreur est survenue. L\'utilisateur que vous cherchez est introuvable. ');
+        }
+       
     }
 
     public function postSendMessage(Request $request, $userID){
@@ -42,11 +47,13 @@ class HomeController extends Controller
         DB::table('messages')->insert([
             'content' => $request->input('message'),
             'sender_id' => Auth::user()->id,
-            'receiver_id' => $userID
+            'receiver_id' => $userID,
+            'created_at' => now(),
+            'updated_at' => now()
         ]);
         
         $messages = Auth::user()->getMessagesWithUser($userID);
 
-        return redirect()->back()->with('success', 'Message envoyé');
+        return redirect()->back();
     }
 }

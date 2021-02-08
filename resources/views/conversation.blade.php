@@ -4,8 +4,9 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-10">
+        <a href="{{ route('home') }}" class="btn btn-secondary btn-sm m-1"> <-- Retour</a>
             <h2>Conversation avec {{$user->name}}</h2>
-            <div class="card">
+            <div class="card" style="height: 50vh; overflow: scroll">
                 <div class="card-body">
                     @foreach ($messages as $message)
                     @if ($message->sender_id !== $authUser->id)

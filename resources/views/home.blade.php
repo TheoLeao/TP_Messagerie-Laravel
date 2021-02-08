@@ -1,9 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-@isset($users)
-<p>users exist</p>
-@endisset
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-10">
@@ -16,12 +13,15 @@
                 </thead>
                 <tbody>
                     @foreach ($users as $user)
+                    @if($user->id !== Auth::user()->id)
                     <tr>
-                        <td>{{$user->name}}</td>
+                        <td><a href="{{ route('showConversation', ['userID' => $user->id])}}">{{$user->name}}</a></td>
                         <td><a type="button" class="btn btn-primary" href="{{ route('showConversation', ['userID' => $user->id])}}">Envoyer un message</a></td>
                     </tr>
+                    @endif
+
                     @endforeach
-                    
+
                 </tbody>
             </table>
         </div>
