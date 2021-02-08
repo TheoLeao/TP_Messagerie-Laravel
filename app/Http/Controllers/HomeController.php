@@ -24,6 +24,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        dump(Auth::user()->getMessagesWithUser(2));
+        $users = User::all();
+        return view('home', ['users' => $users]);
+    }
+
+    public function showConversation($userID){
+        $messages = Auth::user()->getMessagesWithUser($userID);
+        return view('conversation', ['messages' => $messages, 'user' => User::find($userID), 'authUser' => Auth::user()]);
+
     }
 }
